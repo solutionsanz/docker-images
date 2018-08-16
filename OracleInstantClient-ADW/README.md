@@ -22,7 +22,23 @@ The following three RPMs are required:
 - `oracle-instantclient<version>-devel-<version>-1.x86_64.rpm`
 - `oracle-instantclient<version>-sqlplus-<version>-1.x86_64.rpm`
 
-Download the Credential Wallet zipfile from the Oracle Autonomous Data Warehouse Instance that you plan to connect to.
+## Make a directory for the credential wallet
+
+As I am using an OracleLinux7-slim image which doesnt include the zip utility, I did the following;
+
+mkdir adw_wallet
+
+Download the Credential Wallet zipfile from the Oracle Autonomous Data Warehouse Instance into the above directory.
+Note: The wallet can be downloaded under the Admin section of the Cloud Console for ADW.
+The name of the wallet is the same as the ADW instance name eg Instance Name DB201807201207 has a wallet named 
+- `wallet_DB201807201207.zip`
+
+Unzip the wallet into adw_wallet directory
+
+## Unzip of Credential Wallet into /vagrant directory
+
+I used a vagrant-box VBox image to run my Docker container 
+I downloaed 
 
 ## Building
 
