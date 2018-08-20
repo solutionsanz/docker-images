@@ -10,9 +10,12 @@ The SQL*Plus command-line query tool is also included, allowing quick ad-hoc SQL
 
 [Oracle Instant Client](http://www.oracle.com/technetwork/database/features/instant-client/) is a repackaging of Oracle Database libraries, tools and header files usable to create and run applications that connect to a remote (or local) Oracle Database.
 
+## Refer https://redthunder.blog/2018/08/19/connect-dockerised-instant-client-to-autonomous-data-warehouse/
+## If you are not using the solutionsanz/vagrant-boxes/DockerEngine approach then you will need to make a directory for the credential wallet
+
 ## Required files
 
-Download the Oracle Instant Client RPMs from OTN:
+Download the Oracle Instant Client RPMs from OTN into the same directory as this Dockerfile:
 
 http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html
 
@@ -22,23 +25,12 @@ The following three RPMs are required:
 - `oracle-instantclient<version>-devel-<version>-1.x86_64.rpm`
 - `oracle-instantclient<version>-sqlplus-<version>-1.x86_64.rpm`
 
-## Make a directory for the credential wallet
+## Download the ADW Credential Wallet from Oracle Cloud ADW Instance into the same directory as this Dockerfile
 
-As I am using an OracleLinux7-slim image which doesnt include the zip utility, I did the following;
-
-mkdir adw_wallet
-
-Download the Credential Wallet zipfile from the Oracle Autonomous Data Warehouse Instance into the above directory.
-Note: The wallet can be downloaded under the Admin section of the Cloud Console for ADW.
 The name of the wallet is the same as the ADW instance name eg Instance Name DB201807201207 has a wallet named 
 - `wallet_DB201807201207.zip`
 
 Unzip the wallet into adw_wallet directory
-
-## Unzip of Credential Wallet into /vagrant directory
-
-I used a vagrant-box VBox image to run my Docker container 
-I downloaed 
 
 ## Building
 
@@ -46,13 +38,13 @@ Place the downloaded Oracle Instant Client RPMs and the Credential Wallet (zip) 
 same directory as the `Dockerfile` and run:
 
 ```
-docker build -t oracle/instantclient:<version> .
+docker build -t oracle/instantclient-adw:<version> .
 ```
 
 For example, to build an 18.3 Instance Client Docker Image, run:
 
 ```
-docker build -t oracle/instantclient:18.3.0 .
+docker build -t oracle/instantclient-adw:18.3.0 .
 ```
 
 
@@ -61,7 +53,7 @@ docker build -t oracle/instantclient:18.3.0 .
 You can run a container interactively to execute ad-hoc SQL and PL/SQL statements in SQL*Plus:
 
 ```
-docker run -ti --rm oracle/instantclient:18.3.0 sqlplus hr/welcome@example.com/pdborcl
+docker run -ti --rm oracle/instantclient-adw:18.3.0 sqlplus hr/welcome@example.com/pdborcl
 ```
 
 ## Adding Oracle Database Drivers
