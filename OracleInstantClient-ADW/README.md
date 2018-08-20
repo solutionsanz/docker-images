@@ -1,6 +1,6 @@
 # About this Docker Image
 
-Note: This Docker Image extends the base capabilities of the offical Oracle OracleInstantClient Docker image by including a reference to the credential wallet file and  TNS_ADMIN environment variable required for connectivity to the Oracle Autonomous Data Warehouse.
+Note: This Docker Image extends the base capabilities of the offical Oracle OracleInstantClient Docker image by including a reference to the ADW credential wallet file and the TNS_ADMIN environment variable required for connectivity to the Oracle Autonomous Data Warehouse.
 
 This Docker image contains the Oracle Instant Client 'Basic', 'SDK' and 'SQL*Plus' packages.  It can be extended to run OCI, OCCI, and JDBC applications.  It can also be extended to build and run scripting language drivers that use OCI such as Python's cx_Oracle, Node.js's node-oracledb, PHP's OCI8, and Ruby's ruby-oci8.  
 
@@ -30,12 +30,11 @@ The following three RPMs are required:
 The name of the wallet is the same as the ADW instance name eg Instance Name DB201807201207 has a wallet named 
 - `wallet_DB201807201207.zip`
 
-Unzip the wallet into adw_wallet directory
+Create a sub-directory under the directory holding the Dockerfile and download / unzip the wallet into ./adw_wallet directory
 
 ## Building
 
-Place the downloaded Oracle Instant Client RPMs and the Credential Wallet (zip) (from the previous step) in the
-same directory as the `Dockerfile` and run:
+With the Oracle Instant Client RPMs downloaded into the same directory as the Dockerfile and with the ADW Credential Wallet (zip) downloaded and unzipped into a sub directory (./adw_wallet) as the `Dockerfile` and run:
 
 ```
 docker build -t oracle/instantclient-adw:<version> .
@@ -53,11 +52,18 @@ docker build -t oracle/instantclient-adw:18.3.0 .
 You can run a container interactively to execute ad-hoc SQL and PL/SQL statements in SQL*Plus:
 
 ```
-docker run -ti --rm oracle/instantclient-adw:18.3.0 sqlplus hr/welcome@example.com/pdborcl
+docker run -ti --rm oracle/instantclient-adw:18.3.0 sqlplus username@servicename
+
+or
+
+docker run -it --rm oracle/instantclient-adw:18.3.0 bash
+
 ```
 
 ## Adding Oracle Database Drivers
 
-To extend the image with optional Oracle Database drivers, follow your desired driver installation steps.  The Instant Client libraries are in `/usr/lib/oracle/<version>/client64/lib` and the Instant Client headers are in `/usr/include/oracle/<version>/client64/`.
+To extend the image with optional Oracle Database drivers, follow your desired driver installation steps.  
+The Instant Client libraries are in `/usr/lib/oracle/<version>/client64/lib` and 
+the Instant Client headers are in `/usr/include/oracle/<version>/client64/`.
 
 The Instant Client libraries are in the default library search path.
